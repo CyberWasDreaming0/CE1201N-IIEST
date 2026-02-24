@@ -28,7 +28,7 @@ Since this is a single, zero-dependency HTML file, there is no build process or 
 
 ## 📁 Repository Structure
 
-\`\`\`text
+```
 .
 ├── index.html          # Core application (UI + Data + Logic)
 ├── README.md           # Project documentation
@@ -38,7 +38,7 @@ Since this is a single, zero-dependency HTML file, there is no build process or 
     ├── PYQs/           # Previous Year Question papers (2021-2025)
     ├── syllabus.txt    # Text copy of syllabus topics
     └── syllabus.png    # Image of the syllabus
-\`\`\`
+```
 
 ## 🛠️ Built With
 
