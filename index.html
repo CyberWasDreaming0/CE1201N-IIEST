@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecology Exam Prep — IIEST Shibpur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #0f0f1a;
+            --surface: #1a1a2e;
+            --card: #16213e;
+            --accent: #0f3460;
+            --primary: #e94560;
+            --secondary: #533483;
+            --text: #eee;
+            --text-dim: #9ca3af;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --orange: #f97316;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --radius: 14px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, .4)
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        .app {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 28px 20px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(233, 69, 96, .08) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.1)
+            }
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #e94560, #533483, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            position: relative
+        }
+
+        .header p {
+            color: var(--text-dim);
+            font-size: .85rem;
+            position: relative
+        }
+
+        .exam-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            margin-top: 8px;
+            animation: glow 2s ease-in-out infinite alternate
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(233, 69, 96, .5)
+            }
+
+            to {
+                box-shadow: 0 0 20px rgba(233, 69, 96, .8)
+            }
+        }
+
+        /* Stats Bar */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px
+        }
+
+        .stat {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 14px 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, .05);
+            transition: transform .2s
+        }
+
+        .stat:hover {
+            transform: translateY(-2px)
+        }
+
+        .stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .stat-label {
+            font-size: .65rem;
+            color: var(--text-dim);
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            scrollbar-width: none
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, .06);
+            cursor: pointer;
+            font-size: .8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all .25s;
+            color: var(--text-dim)
+        }
+
+        .tab:hover {
+            border-color: var(--primary)
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, .3)
+        }
+
+        .tab .count {
+            background: rgba(255, 255, 255, .15);
+            padding: 1px 7px;
+            border-radius: 8px;
+            font-size: .7rem;
+            margin-left: 5px
+        }
+
+        /* Priority Legend */
+        .legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background: var(--surface);
+            border-radius: 10px;
+            font-size: .72rem
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%
+        }
+
+        /* Question Cards */
+        .questions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .q-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, .05);
+            overflow: hidden;
+            transition: all .3s
+        }
+
+        .q-card:hover {
+            border-color: rgba(233, 69, 96, .3);
+            box-shadow: var(--shadow)
+        }
+
+        .q-card.done {
+            opacity: .6;
+            border-left: 3px solid var(--green)
+        }
+
+        .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px;
+            cursor: pointer
+        }
+
+        .q-priority {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0
+        }
+
+        .q-priority.p0 {
+            background: var(--red)
+        }
+
+        .q-priority.p1 {
+            background: var(--orange)
+        }
+
+        .q-priority.p2 {
+            background: var(--yellow)
+        }
+
+        .q-priority.p3 {
+            background: var(--green)
+        }
+
+        .q-content {
+            flex: 1
+        }
+
+        .q-text {
+            font-size: .88rem;
+            font-weight: 500;
+            line-height: 1.5
+        }
+
+        .q-meta {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap
+        }
+
+        .q-tag {
+            font-size: .65rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600
+        }
+
+        .q-tag.year {
+            background: rgba(59, 130, 246, .15);
+            color: var(--blue)
+        }
+
+        .q-tag.marks {
+            background: rgba(249, 115, 22, .15);
+            color: var(--orange)
+        }
+
+        .q-tag.module {
+            background: rgba(83, 52, 131, .2);
+            color: #a78bfa
+        }
+
+        .q-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-shrink: 0
+        }
+
+        .btn-done {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, .15);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+            font-size: .9rem
+        }
+
+        .btn-done:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+
+        .btn-done.checked {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff
+        }
+
+        .q-expand {
+            font-size: .7rem;
+            color: var(--text-dim);
+            cursor: pointer;
+            padding: 2px 8px
+        }
+
+        /* Answer Panel */
+        .q-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease
+        }
+
+        .q-answer.open {
+            max-height: 2000px
+        }
+
+        .q-answer-inner {
+            padding: 0 16px 16px;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+            margin-top: 0;
+            padding-top: 12px
+        }
+
+        .q-answer-inner h4 {
+            color: var(--primary);
+            font-size: .78rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .q-answer-inner p,
+        .q-answer-inner li {
+            font-size: .82rem;
+            color: var(--text-dim);
+            line-height: 1.7
+        }
+
+        .q-answer-inner ul {
+            padding-left: 18px
+        }
+
+        .q-answer-inner li {
+            margin-bottom: 4px
+        }
+
+        .q-answer-inner .formula {
+            background: rgba(59, 130, 246, .1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: .8rem;
+            color: var(--blue);
+            margin: 8px 0
+        }
+
+        /* Progress Bar */
+        .progress-wrap {
+            position: sticky;
+            bottom: 0;
+            background: var(--bg);
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 255, 255, .05)
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--surface);
+            border-radius: 3px;
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            border-radius: 3px;
+            transition: width .4s ease;
+            width: 0
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: .7rem;
+            color: var(--text-dim);
+            margin-top: 4px
+        }
+
+        /* Theme & Mode Toggles */
+        .header-actions {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 6px;
+            z-index: 2
+        }
+
+        .toggle-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .08);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, .18);
+            transform: scale(1.08)
+        }
+
+        .mode-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 8px 14px;
+            background: var(--surface);
+            border-radius: 10px;
+            font-size: .75rem;
+            color: var(--text-dim)
+        }
+
+        .mode-bar label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .mode-switch {
+            position: relative;
+            width: 38px;
+            height: 20px
+        }
+
+        .mode-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0
+        }
+
+        .mode-slider {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            transition: .3s;
+            cursor: pointer
+        }
+
+        .mode-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .3s
+        }
+
+        .mode-switch input:checked+.mode-slider {
+            background: var(--primary)
+        }
+
+        .mode-switch input:checked+.mode-slider::before {
+            transform: translateX(18px)
+        }
+
+        /* Light theme overrides */
+        [data-theme="light"] {
+            --bg: #f4f1ee;
+            --surface: #fff;
+            --card: #fff;
+            --accent: #e8e3dc;
+            --primary: #d63864;
+            --secondary: #6d3fa0;
+            --text: #2d2d3a;
+            --text-dim: #6b6b80;
+            --green: #059669;
+            --yellow: #d97706;
+            --orange: #ea580c;
+            --red: #dc2626;
+            --blue: #2563eb;
+            --shadow: 0 4px 20px rgba(0, 0, 0, .08)
+        }
+
+        [data-theme="light"] .header {
+            background: linear-gradient(135deg, #f8f4f0 0%, #efe8e0 50%, #e8dfd6 100%)
+        }
+
+        [data-theme="light"] .header::before {
+            background: radial-gradient(circle, rgba(214, 56, 100, .04) 0%, transparent 50%)
+        }
+
+        [data-theme="light"] .stat,
+        [data-theme="light"] .tab,
+        [data-theme="light"] .q-card,
+        [data-theme="light"] .legend,
+        [data-theme="light"] .mode-bar {
+            border-color: rgba(0, 0, 0, .08)
+        }
+
+        [data-theme="light"] .toggle-btn {
+            border-color: rgba(0, 0, 0, .1);
+            background: rgba(0, 0, 0, .05)
+        }
+
+        [data-theme="light"] .q-tag.year {
+            background: rgba(37, 99, 235, .1)
+        }
+
+        [data-theme="light"] .q-tag.marks {
+            background: rgba(234, 88, 12, .1)
+        }
+
+        [data-theme="light"] .q-tag.module {
+            background: rgba(109, 63, 160, .1);
+            color: #6d3fa0
+        }
+
+        [data-theme="light"] .btn-done {
+            border-color: rgba(0, 0, 0, .15)
+        }
+
+        [data-theme="light"] .q-answer-inner {
+            border-top-color: rgba(0, 0, 0, .06)
+        }
+
+        [data-theme="light"] .q-answer-inner .formula {
+            background: rgba(37, 99, 235, .06)
+        }
+
+        [data-theme="light"] .progress-wrap {
+            border-top-color: rgba(0, 0, 0, .06)
+        }
+
+        [data-theme="light"] .footer a {
+            color: var(--primary)
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 16px 16px;
+            color: var(--text-dim);
+            font-size: .72rem
+        }
+
+        .footer .vibe {
+            font-size: .82rem;
+            margin-bottom: 6px;
+            color: var(--text)
+        }
+
+        .footer .gh {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 8px;
+            padding: 5px 14px;
+            border-radius: 8px;
+            background: rgba(233, 69, 96, .1);
+            border: 1px solid var(--primary);
+            font-size: .73rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all .2s
+        }
+
+        .footer .gh:hover {
+            background: var(--primary);
+            color: #fff
+        }
+
+        /* Responsive */
+        @media(max-width:600px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .header h1 {
+                font-size: 1.3rem
+            }
+
+            .q-text {
+                font-size: .82rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app" id="app"></div>
+    <script>
+        const Q = [
+            // ECOLOGY
+            {
+                id: 1, m: "ecology", p: 0, q: "Give an example of a terrestrial ecosystem. List its biotic and abiotic components. Explain how they are interrelated.", mk: "3", y: "2025",
+                a: `<h4>Key Points</h4><p><b>Example:</b> Forest Ecosystem</p><ul><li><b>Biotic:</b> Producers (trees, shrubs), Consumers (herbivores, carnivores), Decomposers (fungi, bacteria)</li><li><b>Abiotic:</b> Sunlight, temperature, water, soil, minerals, air</li><li><b>Interrelation:</b> Producers use abiotic factors (sunlight, CO₂, water) for photosynthesis → Consumers depend on producers → Decomposers break down dead matter returning nutrients to soil (abiotic) → Cycle continues</li></ul>`
+            },
+            {
+                id: 2, m: "ecology", p: 1, q: "Explain the energy flow and mineral recycling using a flow diagram.", mk: "3", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>Energy flow:</b> Unidirectional — Sun → Producers → Primary Consumers → Secondary → Tertiary (10% rule at each level)</li><li><b>Mineral recycling:</b> Cyclic — Nutrients cycle through biotic & abiotic components via biogeochemical cycles</li><li>Energy is LOST at each trophic level as heat; minerals are RECYCLED</li><li>Draw: Sun → Producers(GPP) → Herbivores → Carnivores → Decomposers → back to soil</li></ul>`
+            },
+            {
+                id: 3, m: "ecology", p: 1, q: "Tropical forests and coral reefs are the highly productive ecosystems. Comment.", mk: "3", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>Tropical forests:</b> NPP ~1000-3500 g/m²/yr. High solar radiation, temperature, rainfall, biodiversity</li><li><b>Coral reefs:</b> NPP ~2500 g/m²/yr. Symbiotic zooxanthellae algae, nutrient recycling, warm shallow waters</li><li>Both have high species diversity, abundant energy inputs, and efficient nutrient cycling</li><li>Contrast: Open ocean has LOW productivity despite large area (nutrient-poor)</li></ul>`
+            },
+            {
+                id: 4, m: "ecology", p: 0, q: "Describe the Radioisotope method of measuring primary production. Mention its limitations if any.", mk: "3", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>C-14 Method:</b> Add NaH¹⁴CO₃ to water samples in light & dark bottles</li><li>Incubate for known time → measure ¹⁴C incorporated into plankton</li><li><b>Formula:</b> Production = (¹⁴C fixed in light bottle) × (total CO₂ available / ¹⁴C added)</li><li><b>Limitations:</b> Measures only net production in light bottle; isotope discrimination; background dark fixation correction needed; bottle effects; grazing by zooplankton not accounted</li></ul>`
+            },
+            {
+                id: 5, m: "ecology", p: 1, q: "What do you mean by ecosystem? Classify different components of ecosystem and its function.", mk: "5", y: "2023",
+                a: `<h4>Key Points</h4><ul><li><b>Ecosystem:</b> Functional unit of ecology — community of organisms + their physical environment interacting as a system</li><li><b>Components:</b> Abiotic (light, temp, water, soil, minerals) + Biotic (producers, consumers, decomposers)</li><li><b>Functions:</b> Energy flow, nutrient cycling, productivity, decomposition, ecological succession</li></ul>`
+            },
+            {
+                id: 6, m: "ecology", p: 2, q: "Define the term 'Niche'. No two different species of same niche can co-exist — explain.", mk: "5", y: "2023",
+                a: `<h4>Key Points</h4><ul><li><b>Niche:</b> The functional role and position of a species in its ecosystem — includes habitat, food, activity time, interactions</li><li><b>Competitive Exclusion Principle (Gause's Law):</b> Two species competing for same resources cannot coexist indefinitely</li><li>One will outcompete the other → extinction or niche differentiation</li></ul>`
+            },
+            {
+                id: 7, m: "ecology", p: 1, q: "Mention different biotic and abiotic components in a pond ecosystem. How are these components interlinked?", mk: "4", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>Abiotic:</b> Water, dissolved O₂, CO₂, pH, sunlight, temperature, minerals, mud</li><li><b>Biotic — Producers:</b> Phytoplankton, algae, aquatic plants</li><li><b>Primary consumers:</b> Zooplankton, small fish, insects</li><li><b>Secondary consumers:</b> Large fish, frogs</li><li><b>Decomposers:</b> Bacteria, fungi in bottom sediment</li><li><b>Interlink:</b> Food chain/web, nutrient cycling, O₂-CO₂ exchange between producers & consumers</li></ul>`
+            },
+            {
+                id: 8, m: "ecology", p: 2, q: "(a) Nitrification and denitrification and their role in the nitrogen cycle. (b) Bio-magnification of DDT through the food chain.", mk: "4+4", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>Nitrification:</b> NH₃ → NO₂⁻ (Nitrosomonas) → NO₃⁻ (Nitrobacter) — makes N available to plants</li><li><b>Denitrification:</b> NO₃⁻ → N₂ (by Pseudomonas) — returns N to atmosphere</li><li><b>Biomagnification:</b> DDT concentration increases at each trophic level</li><li>Water: 0.003 ppb → Plankton: 0.04 ppm → Fish: 0.5 ppm → Fish-eating birds: 25 ppm</li><li>Fat-soluble, non-biodegradable → accumulates in fatty tissues</li></ul>`
+            },
+            {
+                id: 9, m: "ecology", p: 2, q: "What are classifications of biodiversity? Explain 'economic values'. Threats to biodiversity? Biodiversity hot spot?", mk: "4+2+2", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>Types:</b> Genetic diversity, Species diversity, Ecosystem diversity</li><li><b>Economic values:</b> Direct (food, timber, medicine) + Indirect (pollination, climate regulation, water purification)</li><li><b>Threats:</b> Habitat loss, overexploitation, pollution, invasive species, climate change</li><li><b>Hotspot:</b> Region with >1500 endemic vascular plants & lost >70% original habitat. E.g., Western Ghats, Himalayas</li></ul>`
+            },
+
+            // ENVIRONMENT
+            {
+                id: 10, m: "environment", p: 0, q: "The air pollutants were measured: PM₁₀=300 µg/m³, CO=8 mg/m³, PM₂.₅=190 µg/m³. What is the AQI?", mk: "3", y: "2025",
+                a: `<h4>Solving Steps</h4><ul><li>Find sub-index for each pollutant from AQI breakpoint table</li><li><b>PM₁₀ = 300 µg/m³:</b> Falls in 251-350 range → AQI sub-index ≈ 250 (Poor)</li><li><b>CO = 8 mg/m³:</b> Falls in 2.1-10 range → AQI sub-index ≈ 175 (Moderate)</li><li><b>PM₂.₅ = 190 µg/m³:</b> Falls in 121-250 range → AQI sub-index ≈ 354 (Very Poor)</li><li><b>Final AQI = Maximum sub-index = ~354 (Very Poor)</b></li><li>The pollutant with highest sub-index determines overall AQI</li></ul>`
+            },
+            {
+                id: 11, m: "environment", p: 1, q: "SO₂ and NH₃ are both pollutants. Which one tends to accumulate near ground and cause toxicity?", mk: "2", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>SO₂</b> (MW=64) is denser than air (MW≈29) — tends to sink and accumulate near ground</li><li>NH₃ (MW=17) is lighter than air — rises upward</li><li>Therefore SO₂ causes more ground-level toxicity issues</li></ul>`
+            },
+            {
+                id: 12, m: "environment", p: 0, q: "Which pollutants are secondary air pollutants? Why is automobile pollution responsible for ozone build-up in urban atmosphere?", mk: "3", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>Secondary pollutants:</b> Formed by reaction of primary pollutants — O₃, PAN, smog, H₂SO₄, HNO₃</li><li><b>Automobile → Ozone:</b> Cars emit NO₂ + VOCs → Sunlight breaks NO₂ → NO + O → O + O₂ → O₃</li><li>This is photochemical smog formation — worse in summer, urban areas with heavy traffic</li></ul>`
+            },
+            {
+                id: 13, m: "environment", p: 0, q: "SO₂ emission from thermal power plant stack — is it complying with CPCB prescribed limit of 600 mg/Nm³? (200 ppm, 150°C, 1.1 atm)", mk: "2", y: "2025",
+                a: `<h4>Solving Steps</h4><div class="formula">Step 1: Convert ppm directly to Normal conditions (0°C, 1 atm)<br>Note: ppm is a volume ratio and is independent of stack temperature/pressure.<br>C(mg/Nm³) = ppm × MW / 22.414<br>= 200 × 64 / 22.414<br>≈ 571.1 mg/Nm³<br><br>Step 2: Compare with 600 mg/Nm³ limit</div><p>Since 571.1 < 600, the emission is COMPLIANT.</p>`
+            },
+            {
+                id: 14, m: "environment", p: 2, q: "In a 55-min class, sound levels measured every 10 min: 65,68,70,63,66,65 dB. What is Leq?", mk: "3", y: "2025",
+                a: `<h4>Formula</h4><div class="formula">Leq = 10 × log₁₀ [ (1/T) × Σ(tᵢ × 10^(Lᵢ/10)) ]<br><br>= 10 × log₁₀ [ (1/55) × (10×10^6.5 + 10×10^6.8 + 10×10^7.0 + 10×10^6.3 + 10×10^6.6 + 5×10^6.5) ]</div><p>Note: Last interval is only 5 min (9:50-9:55). Compute each 10^(L/10), multiply by time, sum, divide by 55, take 10×log₁₀</p>`
+            },
+            {
+                id: 15, m: "environment", p: 1, q: "National Ambient Air Quality Standards in India? Pollutants for AQI? Pollutants in petrol vehicle exhaust? How catalytic converters help?", mk: "2×4=8", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>NAAQS pollutants:</b> PM₁₀, PM₂.₅, SO₂, NO₂, CO, O₃, Pb, NH₃, C₆H₆, BaP, As, Ni</li><li><b>AQI pollutants (8):</b> PM₁₀, PM₂.₅, NO₂, SO₂, CO, O₃, NH₃, Pb</li><li><b>Petrol exhaust:</b> CO, HC (unburnt), NOₓ, PM, lead (older cars)</li><li><b>Catalytic converter:</b> Pt/Pd/Rh catalyst — oxidizes CO→CO₂, HC→CO₂+H₂O; reduces NOₓ→N₂+O₂</li></ul>`
+            },
+            {
+                id: 16, m: "environment", p: 1, q: "Formaldehyde steady-state concentration in restaurant (500m³, 30 smokers, 2 cig/hr, 1.40mg HCHO/cig, K=0.4/hr, Q=1000m³/hr). Also concentration at 6 PM if opens at 5 PM clean.", mk: "6+8", y: "2024",
+                a: `<h4>Formula</h4><div class="formula">Steady state: Css = S / (Q + K×V)<br>S = 30×2×1.40 = 84 mg/hr<br>Css = 84 / (1000 + 0.4×500) = 84/1200 = 0.07 mg/m³<br><br>At time t=1hr: C(t) = Css × [1 - e^(-(Q/V + K)×t)]<br>= 0.07 × [1 - e^(-(1000/500 + 0.4)×1)]<br>= 0.07 × [1 - e^(-2.4)]</div>`
+            },
+            {
+                id: 17, m: "environment", p: 1, q: "What is PM₂.₅ and PM₁₀? Good vs Bad Ozone? What is secondary air pollutant?", mk: "2+3+3+2=10", y: "2021",
+                a: `<h4>Key Points</h4><ul><li><b>PM₂.₅:</b> Particulate matter ≤2.5µm — penetrates deep into lungs, enters bloodstream</li><li><b>PM₁₀:</b> Particulate matter ≤10µm — settles in upper respiratory tract</li><li><b>Good Ozone:</b> Stratospheric O₃ layer — shields UV radiation</li><li><b>Bad Ozone:</b> Ground-level O₃ — respiratory irritant, smog component</li><li><b>Secondary pollutants:</b> O₃, PAN, smog, acid rain — formed from primary pollutant reactions</li></ul>`
+            },
+            {
+                id: 18, m: "environment", p: 2, q: "What is CDI? Define CDI. Explain potency factor for carcinogens. Chloroform contamination numerical.", mk: "2+3=5", y: "2023",
+                a: `<h4>Key Points</h4><ul><li><b>CDI (Chronic Daily Intake):</b> Amount of chemical substance ingested per kg body weight per day</li><li><b>Formula:</b> CDI = (C × IR × EF) / BW</li><li><b>Potency factor (SF):</b> Slope factor = Risk per unit dose for carcinogens. Risk = CDI × SF</li><li>For chloroform: Use given concentration, body weight 70kg, intake 2L/day, potency factor 6.1×10⁻³</li></ul>`
+            },
+            {
+                id: 19, m: "environment", p: 3, q: "(a) Define 'Fund Pollutant' with example. (b) Classify behavioral properties: CCl₄, PCB, Methane, Benzo-pyrene. (c) Sugar spill ecological impact on pond.", mk: "1+2+2=5", y: "2023",
+                a: `<h4>Key Points</h4><ul><li><b>Fund pollutant:</b> Environment can absorb & neutralize it (e.g., CO₂ in moderate amounts, biodegradable waste)</li><li><b>Stock pollutant:</b> Persists, can't be neutralized (e.g., plastics, radioactive waste)</li><li><b>Sugar in pond:</b> Causes BOD spike → bacteria decompose sugar consuming dissolved O₂ → O₂ depletion → fish & aquatic life die → eutrophication</li></ul>`
+            },
+
+            // ENERGY
+            {
+                id: 20, m: "energy", p: 1, q: "What do you mean by sustainable energy? How is energy continuously being produced in the sun?", mk: "1+6", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>Sustainable energy:</b> Energy that meets present needs without compromising future generations' ability to meet theirs</li><li><b>Solar energy production:</b> Nuclear fusion — 4 H nuclei → 1 He + energy (E=mc²)</li><li>Core temp ~15 million °C, converts 4.3 million tons of mass to energy per second</li><li><b>Types:</b> Solar, Wind, Hydro, Geothermal, Biomass, Tidal</li></ul>`
+            },
+            {
+                id: 21, m: "energy", p: 1, q: "Define sustainable development? Mention the goals of sustainable development.", mk: "1+4=5", y: "2023",
+                a: `<h4>Key Points</h4><ul><li><b>Definition (Brundtland):</b> "Development that meets the needs of the present without compromising the ability of future generations"</li><li><b>17 SDGs (key ones):</b> No poverty, Zero hunger, Clean water, Affordable clean energy, Climate action, Life on land, Life below water</li><li><b>3 Pillars:</b> Economic growth + Social inclusion + Environmental protection</li></ul>`
+            },
+            {
+                id: 22, m: "energy", p: 2, q: "Classify and discuss natural resources with examples. 'Biogas' — what type of resource? Explain.", mk: "4+4=8", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>Renewable:</b> Solar, wind, water, biomass, geothermal (replenished naturally)</li><li><b>Non-renewable:</b> Coal, petroleum, natural gas, nuclear fuels (finite)</li><li><b>Also classified as:</b> Exhaustible/Inexhaustible; Biotic/Abiotic</li><li><b>Biogas:</b> Renewable resource — produced from anaerobic decomposition of organic waste. Composition: CH₄ (60-70%), CO₂ (30-40%)</li></ul>`
+            },
+
+            // CLIMATE CHANGE
+            {
+                id: 23, m: "climate", p: 0, q: "What do you understand by Green House Effect? How is it caused? Consequences? What are greenhouse gases? What is Green Energy?", mk: "5", y: "2025",
+                a: `<h4>Key Points</h4><ul><li><b>Greenhouse Effect:</b> Certain gases trap outgoing infrared radiation → warming Earth's surface</li><li><b>Mechanism:</b> Sun's short-wave radiation passes through atmosphere → Earth absorbs & re-emits long-wave IR → GHGs absorb & re-radiate back to surface</li><li><b>Anthropogenic GHGs (order of impact):</b> CO₂ > CH₄ > N₂O > CFCs > O₃ (Note: Water vapor is the strongest natural GHG)</li><li><b>Consequences:</b> Rising sea levels, extreme weather, glacier melting, biodiversity loss, food insecurity</li><li><b>Green Energy:</b> Energy from renewable, zero/low-emission sources — solar, wind, hydro, geothermal</li></ul>`
+            },
+            {
+                id: 24, m: "climate", p: 0, q: "Use Mann-Kendall test to check significant trend in time series: [20,18,16,15,14,13,12,10,9,8,15,17,18] at 5% significance level.", mk: "7", y: "2025",
+                a: `<h4>Step-by-Step</h4><div class="formula">1. For each pair (xⱼ - xᵢ) where j>i, count:<br>   S = Σ sign(xⱼ - xᵢ)<br>   sign = +1 if positive, -1 if negative, 0 if equal<br><br>2. Calculate: n=number of data points<br>   Var(S) = [n(n-1)(2n+5)] / 18<br><br>3. Z = (S-1)/√Var(S) if S>0<br>   Z = (S+1)/√Var(S) if S<0<br><br>4. Compare |Z| with Z₀.₀₂₅ = 1.96<br>   If |Z| > 1.96 → Significant trend at 5%</div><p>Count all n(n-1)/2 pairs carefully. This data appears to show a decreasing then increasing pattern.</p>`
+            },
+            {
+                id: 25, m: "climate", p: 1, q: "Calculate CO₂ increase from company operations: 1M vans×30000km×0.30kg/km, 120B kWh×0.200kg/kWh, 1B km×0.115kg/km, 50000T waste×0.5kg/kg. Also ppm to Giga-Ton conversion.", mk: "4+2", y: "2025",
+                a: `<h4>Solving</h4><div class="formula">Scope 1 (Fleet): 1,000,000 × 30,000 × 0.30 = 9×10⁹ kg = 9 MT CO₂<br>Scope 2 (Purchased Electricity): 120×10⁹ × 0.200 = 24×10⁹ kg = 24 MT<br>Scope 3 (Travel): 1×10⁹ × 0.115 = 0.115×10⁹ kg = 0.115 MT<br>Scope 3 (Waste): 50000×1000 × 0.5 = 25×10⁶ kg = 0.025 MT<br><br>Total ≈ 33.14 MT CO₂/year<br><br>(b) 1 ppm CO₂ ≈ 7.82 Gt CO₂<br>Need: (1000 - 428) × 7.82 = 572 × 7.82 ≈ 4473 Gt CO₂</div>`
+            },
+            {
+                id: 26, m: "climate", p: 1, q: "CFC number of C₂H₄F₂? Why destructive for ozone? pH of acid rain? Name 4 greenhouse gases in order of increasing GWP (except water vapor).", mk: "1+2+1+2=6", y: "2024",
+                a: `<h4>Key Points</h4><ul><li><b>CFC number:</b> CFC-XYZ where X=C-1, Y=H+1, Z=F. For C₂H₄F₂: X=2-1=1, Y=4+1=5, Z=2 → <b>CFC-152</b></li><li><b>Ozone destruction:</b> UV breaks CFC → releases Cl atom → Cl + O₃ → ClO + O₂ → ClO + O → Cl + O₂ (catalytic, 1 Cl destroys ~100,000 O₃)</li><li><b>Acid rain pH:</b> < 5.6 (normal rain = 5.6 due to CO₂)</li><li><b>GHGs in order:</b> CO₂ (GWP=1) < CH₄ (25) < N₂O (298) < CFCs (thousands)</li></ul>`
+            },
+            {
+                id: 27, m: "climate", p: 1, q: "What is Global Warming, and what is its environmental impact?", mk: "3", y: "2021",
+                a: `<h4>Key Points</h4><ul><li><b>Global Warming:</b> Long-term increase in Earth's average temperature due to enhanced greenhouse effect from anthropogenic GHG emissions</li><li><b>Impacts:</b> Sea level rise (thermal expansion + ice melting), extreme weather events, coral bleaching, species extinction, crop yield changes, water scarcity, health impacts</li></ul>`
+            }
+        ];
+
+        const MODULES = { all: { name: "All Topics", icon: "📋" }, ecology: { name: "Ecology", icon: "🌿" }, environment: { name: "Environment", icon: "🏭" }, energy: { name: "Energy", icon: "⚡" }, climate: { name: "Climate Change", icon: "🌡️" } };
+
+        // NEW: SO2 Power Plant numerical from Numericals folder
+        Q.push({
+            id: 28, m: "environment", p: 0, q: "A 250 MW power plant burns 20 T coals/MW. Sulphur in coal: 0.3%, stack temp 150°C, pressure 1.1 atm, exit velocity 10 m/s, diameter 10 m. Is SO₂ emission within CPCB limit of 600 mg/Nm³?", mk: "5", y: "2024",
+            a: `<h4>Solving Steps</h4><div class="formula">Given: 250 MW, 20 T coal/MW, S=0.3%, T=150°C=423K, P=1.1atm, v=10m/s, d=10m<br><br>Step 1: Coal burnt = 250×20 = 5000 T/hr<br>Step 2: Sulphur = 0.3% of 5000 = 15 T/hr = 15×10⁶ g/hr<br>Step 3: S + O₂ → SO₂, so SO₂ = 15×(64/32) = 30 T/hr = 30×10⁶ g/hr<br>Step 4: Stack area = π/4 × 10² = 78.54 m²<br>Step 5: Flow rate at stack = 78.54 × 10 = 785.4 m³/s = 2,827,440 m³/hr<br>Step 6: Conc at stack = 30×10⁶/2,827,440 = 10,610 mg/m³<br>Step 7: Convert to Nm³: C(Nm³) = C × (T/273) × (1/P)<br>= 10,610 × (423/273) × (1/1.1) ≈ 14,940 mg/Nm³<br><br>14,940 >> 600 → <b>NOT Compliant ✗</b></div>`
+        });
+
+        // Detailed answers map (shown when detailed mode is ON)
+        const DETAILED = {
+            1: `<h4>Answer — Terrestrial Ecosystem</h4><p>A <b>terrestrial ecosystem</b> is a land-based community of organisms and their physical environment interacting together. A classic example is a <b>Forest Ecosystem</b>.</p><p><b>Biotic Components (Living):</b></p><ul><li><b>Producers (Autotrophs):</b> Trees, shrubs, grasses, mosses that manufacture food through photosynthesis using sunlight, CO₂ and water.</li><li><b>Primary Consumers (Herbivores):</b> Deer, rabbits, insects that feed directly on producers.</li><li><b>Secondary Consumers (Carnivores):</b> Foxes, snakes, frogs that feed on herbivores.</li><li><b>Tertiary Consumers (Top Predators):</b> Eagles, tigers at the top of the food chain.</li><li><b>Decomposers:</b> Fungi, bacteria that break down dead organic matter into simpler inorganic substances.</li></ul><p><b>Abiotic Components (Non-living):</b></p><ul><li>Sunlight (primary energy source), Temperature, Water/Rainfall, Soil (minerals, pH, texture), Air (O₂, CO₂, N₂), Wind</li></ul><p><b>Interrelationship:</b> Producers absorb abiotic factors (sunlight, CO₂, water, soil minerals) for photosynthesis → produce organic matter and O₂ → Consumers eat producers and each other, transferring energy up the food chain → Decomposers break down dead organisms and waste, releasing minerals back into soil (abiotic) → These minerals are again absorbed by producers → The cycle continues indefinitely. This shows biotic and abiotic components are inseparably linked.</p>`,
+            2: `<h4>Answer — Energy Flow & Mineral Recycling</h4><p><b>Energy Flow</b> in an ecosystem is <b>unidirectional</b> (one-way). It follows the <b>10% Rule</b> (Lindeman's Law):</p><ul><li><b>Sun</b> → provides radiant energy</li><li><b>Producers</b> capture ~1% of solar energy via photosynthesis → Gross Primary Production (GPP)</li><li>GPP − Respiration = <b>Net Primary Production (NPP)</b></li><li>NPP → <b>Primary Consumers</b> (herbivores) — only ~10% energy transfers</li><li>→ <b>Secondary Consumers</b> (carnivores) — again ~10%</li><li>→ <b>Tertiary Consumers</b> (top predators) — again ~10%</li><li>At each level, ~90% energy is lost as heat through respiration</li></ul><p><b>Mineral Recycling</b> is <b>cyclic</b>:</p><ul><li>Minerals (N, P, K, Ca) move from soil → producers → consumers → decomposers → back to soil</li><li>This occurs through <b>biogeochemical cycles</b> (carbon cycle, nitrogen cycle, phosphorus cycle, water cycle)</li><li>Unlike energy, minerals are <b>never lost</b> — they are continuously recycled</li></ul><p><b>Key Difference:</b> Energy flow = unidirectional + non-cyclic; Mineral flow = cyclic + conserved.</p>`,
+            4: `<h4>Answer — Radioisotope Method (C-14 Method)</h4><p>The <b>Radioisotope method</b> (also called C-14 method or Carbon-14 technique) is used to measure <b>primary productivity</b> in aquatic ecosystems. It was developed by <b>Steemann Nielsen (1952)</b>.</p><p><b>Procedure:</b></p><ul><li>1. Prepare two bottles — one transparent (<b>Light bottle</b>) and one opaque (<b>Dark bottle</b>)</li><li>2. Add a known amount of radioactive sodium bicarbonate (<b>NaH¹⁴CO₃</b>) to both bottles</li><li>3. Fill both with water from the study site containing phytoplankton</li><li>4. Submerge both bottles at the desired depth for a known incubation period (usually 4-6 hours)</li><li>5. In the <b>light bottle</b>: photosynthesis occurs → phytoplankton fix ¹⁴C into organic matter</li><li>6. In the <b>dark bottle</b>: measures background abiotic dark carbon fixation</li><li>7. After incubation, filter plankton and measure ¹⁴C incorporated using a Geiger counter or scintillation counter</li></ul><p><b>Formula:</b></p><div class="formula">Production = (¹⁴C fixed in light bottle - ¹⁴C fixed in dark bottle) × (Total CO₂ available / ¹⁴C added)</div><p><b>Limitations:</b></p><ul><li>1. Measures something between net and gross production, depending on incubation time</li><li>2. <b>Isotope discrimination</b> — organisms may preferentially use ¹²C over ¹⁴C</li><li>3. <b>Bottle effect</b> — confined environment differs from natural conditions</li><li>4. <b>Grazing</b> by zooplankton during incubation is not accounted for</li><li>5. <b>Excretion</b> of dissolved organic carbon by phytoplankton is not measured</li></ul>`,
+            10: `<h4>Answer — AQI Calculation</h4><p>The <b>Air Quality Index (AQI)</b> is calculated by finding sub-indices for individual pollutants and taking the maximum.</p><p><b>Given:</b> PM₁₀ = 300 µg/m³, CO = 8 mg/m³, PM₂.₅ = 190 µg/m³</p><p><b>Step 1: Find sub-index for each pollutant using CPCB breakpoint table:</b></p><div class="formula">For PM₁₀ = 300 µg/m³:<br>Breakpoint range: 251-350 → AQI range: 201-300 (Poor)<br>I = ((300-201)/(350-251)) × (300-251) + 201<br>I(PM₁₀) ≈ 250<br><br>For CO = 8 mg/m³:<br>Breakpoint range: 2.1-10 → AQI range: 101-200 (Moderate)<br>I(CO) ≈ 175<br><br>For PM₂.₅ = 190 µg/m³:<br>Breakpoint range: 121-250 → AQI range: 301-400 (Very Poor)<br>I(PM₂.₅) = ((400-301)/(250-121)) × (190-121) + 301 ≈ 354</div><p><b>Step 2: Final AQI = max(250, 175, 354) = 354</b></p><p><b>Category: Very Poor</b>. The dominant pollutant is PM₂.₅.</p><p><b>Formula used:</b> I = ((I_high - I_low)/(BP_high - BP_low)) × (C - BP_low) + I_low</p>`,
+            13: `<h4>Answer — SO₂ Emission Compliance Check</h4><p><b>Given:</b> SO₂ = 200 ppm, Temperature = 150°C = 423 K, Pressure = 1.1 atm, CPCB limit = 600 mg/Nm³</p><p><b>Step 1:</b> Convert ppm directly to Normal conditions (Nm³ = 0°C, 1 atm):</p><p>Since <b>ppm</b> represents a volume-by-volume ratio (parts per million), it is independent of the stack's temperature and pressure. We can convert directly using the molar volume of an ideal gas at Normal conditions (22.414 L).</p><div class="formula">C(mg/Nm³) = ppm × (Molecular Weight / 22.414)<br>= 200 × (64 / 22.414)<br>= 200 × 2.855<br>= 571.1 mg/Nm³</div><p><b>Step 2:</b> Compare with limit:</p><div class="formula">571.1 mg/Nm³ < 600 mg/Nm³<br><br>∴ The emission is <b>COMPLIANT ✓</b></div>`,
+            16: `<h4>Answer — Formaldehyde Concentration in Restaurant</h4><p><b>Given:</b> Volume V = 500 m³, Smokers = 30, Rate = 2 cig/hr, Emission = 1.40 mg HCHO/cig, Reaction rate K = 0.4/hr, Ventilation Q = 1000 m³/hr, Assume complete mixing.</p><p><b>Part (a): Steady-State Concentration</b></p><div class="formula">Source strength: S = 30 × 2 × 1.40 = 84 mg/hr<br><br>At steady state, input = output + reaction:<br>S = C_ss × Q + C_ss × K × V<br>S = C_ss × (Q + K×V)<br><br>C_ss = S / (Q + K×V)<br>= 84 / (1000 + 0.4 × 500)<br>= 84 / 1200<br>= <b>0.07 mg/m³</b></div><p><b>Part (b): Concentration at 6 PM (t = 1 hr after opening at 5 PM clean)</b></p><div class="formula">Using the transient equation with C₀ = 0:<br>C(t) = C_ss × [1 - e^(-(Q/V + K) × t)]<br><br>Q/V + K = 1000/500 + 0.4 = 2.0 + 0.4 = 2.4 hr⁻¹<br><br>C(1) = 0.07 × [1 - e^(-2.4 × 1)]<br>= 0.07 × [1 - e^(-2.4)]<br>= 0.07 × [1 - 0.0907]<br>= 0.07 × 0.9093<br>= <b>0.0637 mg/m³</b></div><p>The concentration at 6 PM (~0.064 mg/m³) is close to but not yet at steady state (0.07 mg/m³).</p>`,
+            24: `<h4>Answer — Mann-Kendall Trend Test</h4><p><b>Given data:</b> x = [20, 18, 16, 15, 14, 13, 12, 10, 9, 8, 15, 17, 18], n = 13</p><p><b>Step 1:</b> Calculate S = Σ sgn(xⱼ − xᵢ) for all j > i</p><div class="formula">For each pair (i,j) where j>i:<br>sgn(xⱼ − xᵢ) = +1 if xⱼ > xᵢ, −1 if xⱼ < xᵢ, 0 if equal<br><br>Total pairs = n(n-1)/2 = 13×12/2 = 78 pairs<br><br>Count carefully comparing each value with all subsequent values.<br>The series mostly decreases (values 1-10) then increases (values 11-13).<br>Most pairs from early high values to later low values give −1.<br>After counting all 78 pairs: S ≈ −33</div><p><b>Step 2:</b> Calculate Variance of S</p><div class="formula">Var(S) = n(n−1)(2n+5) / 18<br>= 13 × 12 × 31 / 18<br>= 4836 / 18<br>= <b>268.67</b></div><p><b>Step 3:</b> Calculate Z-statistic</p><div class="formula">Since S < 0:<br>Z = (S + 1) / √Var(S)<br>= (−33 + 1) / √268.67<br>= −32 / 16.39<br>= <b>−1.95</b></div><p><b>Step 4:</b> Compare with critical value at 5% significance</p><div class="formula">|Z| = 1.95, Z₀.₀₂₅ = 1.96 (two-tailed test)<br><br>|Z| = 1.95 < 1.96<br><br>∴ <b>No significant trend at 5% level</b><br>(marginally insignificant — very close to rejection)</div><p>The data shows an overall decreasing tendency but the upturn at the end weakens the trend statistic.</p>`,
+            28: `<h4>Answer — SO₂ Emission from 250 MW Power Plant</h4><p><b>Given:</b> Capacity = 250 MW, Coal consumption = 20 T/MW, Sulphur = 0.3% (w/w), T = 150°C = 423 K, P = 1.1 atm, Stack velocity = 10 m/s, Stack diameter = 10 m, CPCB limit = 600 mg/Nm³</p><p><b>Step 1: Total coal burnt per hour</b></p><div class="formula">Coal = 250 × 20 = 5000 T/hr</div><p><b>Step 2: Sulphur content</b></p><div class="formula">Sulphur = 0.3% × 5000 = 15 T/hr = 15 × 10⁶ g/hr</div><p><b>Step 3: SO₂ produced (complete combustion: S + O₂ → SO₂)</b></p><div class="formula">SO₂ = 15 × (M_SO₂/M_S) = 15 × (64/32) = 30 T/hr = 30 × 10⁹ mg/hr</div><p><b>Step 4: Stack gas flow rate at actual conditions</b></p><div class="formula">Area = π/4 × d² = π/4 × 10² = 78.54 m²<br>Flow = Area × velocity = 78.54 × 10 = 785.4 m³/s<br>= 785.4 × 3600 = 2,827,440 m³/hr</div><p><b>Step 5: SO₂ concentration at actual conditions</b></p><div class="formula">C(actual) = 30 × 10⁹ / 2,827,440 = 10,610 mg/m³</div><p><b>Step 6: Convert to Normal conditions (0°C, 1 atm)</b></p><div class="formula">C(Nm³) = C(actual) × (T_actual/T_normal) × (1/P)<br>= 10,610 × (423/273) × (1/1.1)<br>= 10,610 × 1.549 × 0.909<br>= <b>14,940 mg/Nm³</b></div><p><b>Step 7: Compare with CPCB limit</b></p><div class="formula">14,940 mg/Nm³ >> 600 mg/Nm³<br><br>∴ <b>NOT Compliant ✗</b><br>The plant exceeds the limit by ~25 times!</div>`
+        };
+
+        let activeTab = "all";
+        let doneSet = new Set(JSON.parse(localStorage.getItem("eco_done") || "[]"));
+        let openSet = new Set();
+        let detailedMode = localStorage.getItem("eco_detailed") === "1";
+
+        function save() { localStorage.setItem("eco_done", JSON.stringify([...doneSet])) }
+        function toggleDone(id, e) { e.stopPropagation(); doneSet.has(id) ? doneSet.delete(id) : doneSet.add(id); save(); render(); }
+        function toggleOpen(id) { openSet.has(id) ? openSet.delete(id) : openSet.add(id); render() }
+        function setTab(t) { activeTab = t; render() }
+        function toggleTheme() { const el = document.documentElement; el.dataset.theme = el.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('eco_theme', el.dataset.theme); render(); }
+        function toggleDetailed() { detailedMode = !detailedMode; localStorage.setItem("eco_detailed", detailedMode ? "1" : "0"); render(); }
+        function getFiltered() { return activeTab === "all" ? Q : Q.filter(q => q.m === activeTab) }
+
+        // Restore theme
+        (function () { const t = localStorage.getItem('eco_theme'); if (t) document.documentElement.dataset.theme = t; })();
+
+        function render() {
+            const filtered = getFiltered();
+            const total = Q.length;
+            const done = doneSet.size;
+            const pct = Math.round(done / total * 100);
+            const modCounts = {};
+            Q.forEach(q => { modCounts[q.m] = (modCounts[q.m] || 0) + 1 });
+            const isDark = document.documentElement.dataset.theme !== 'light';
+
+            let h = `
+  <div class="header">
+    <div class="header-actions">
+      <button class="toggle-btn" onclick="toggleTheme()" title="Toggle theme">${isDark ? '☀️' : '🌙'}</button>
+    </div>
+    <h1>🎓 Ecology Exam Prep</h1>
+    <p>CE1201N — IIEST Shibpur</p>
+    <div class="exam-badge">⏰ EXAM TOMORROW — Feb 25, 2026</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Total Qs</div></div>
+    <div class="stat"><div class="stat-num">${done}</div><div class="stat-label">Studied</div></div>
+    <div class="stat"><div class="stat-num">${total - done}</div><div class="stat-label">Remaining</div></div>
+    <div class="stat"><div class="stat-num">${pct}%</div><div class="stat-label">Progress</div></div>
+  </div>
+  <div class="mode-bar">
+    <span>📝 Quick Notes</span>
+    <label class="mode-switch"><input type="checkbox" ${detailedMode ? 'checked' : ''} onchange="toggleDetailed()"><span class="mode-slider"></span></label>
+    <span>📖 Detailed (Exam-Ready)</span>
+  </div>
+  <div class="tabs">`;
+            for (let k in MODULES) {
+                const cnt = k === "all" ? total : modCounts[k] || 0;
+                h += `<div class="tab ${activeTab === k ? "active" : ""}" onclick="setTab('${k}')">${MODULES[k].icon} ${MODULES[k].name}<span class="count">${cnt}</span></div>`;
+            }
+            h += `</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> P0 Must Know</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> P1 Important</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> P2 Good to Know</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> P3 Bonus</div>
+  </div>
+  <div class="questions">`;
+
+            filtered.sort((a, b) => a.p - b.p).forEach(q => {
+                const isDone = doneSet.has(q.id);
+                const isOpen = openSet.has(q.id);
+                const pClass = ["p0", "p1", "p2", "p3"][q.p];
+                const answerContent = (detailedMode && DETAILED[q.id]) ? DETAILED[q.id] : q.a;
+                h += `<div class="q-card ${isDone ? "done" : ""}">
+      <div class="q-header" onclick="toggleOpen(${q.id})">
+        <div class="q-priority ${pClass}"></div>
+        <div class="q-content">
+          <div class="q-text">${q.q}</div>
+          <div class="q-meta">
+            <span class="q-tag year">📅 ${q.y}</span>
+            <span class="q-tag marks">✏️ ${q.mk} marks</span>
+            <span class="q-tag module">${MODULES[q.m].icon} ${MODULES[q.m].name}</span>
+          </div>
+        </div>
+        <div class="q-actions">
+          <button class="btn-done ${isDone ? "checked" : ""}" onclick="toggleDone(${q.id},event)">${isDone ? "✓" : "○"}</button>
+        </div>
+      </div>
+      <div class="q-answer ${isOpen ? "open" : ""}">
+        <div class="q-answer-inner">${answerContent}</div>
+      </div>
+    </div>`;
+            });
+
+            h += `</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-text"><span>${done}/${total} topics studied</span><span>${pct}%</span></div>
+  </div>
+  <div class="footer">
+    <div class="vibe">⚡ Vibe-coded with 💜 by <b>Rituraj</b></div>
+    <div>Built for last-minute revision — all PYQs 2021–2025 in one place</div>
+    <a class="gh" href="https://github.com/CyberWasDreaming0/CE1201N-IIEST" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      CyberWasDreaming0
+    </a>
+  </div>`;
+
+            document.getElementById("app").innerHTML = h;
+        }
+
+        render();
+    </script>
+</body>
+
+
+</html>
